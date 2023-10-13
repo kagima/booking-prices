@@ -1,0 +1,25 @@
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+
+# Load the Airbnb data
+airbnb_data = pd.read_csv('airbnb_data.csv')
+
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(airbnb_data[['property_type', 'location', 'amenities', 'time_of_year']], airbnb_data['booking_price'], test_size=0.25, random_state=42)
+
+# Create a random forest regressor
+random_forest_regressor = RandomForestRegressor(n_estimators=100, random_state=42)
+
+# Fit the model to the training data
+random_forest_regressor.fit(X_train, y_train)
+
+# Make predictions on the test data
+y_pred = random_forest_regressor.predict(X_test)
+
+# Calculate the mean absolute error
+mae = np.mean(np.abs(y_test - y_pred))
+
+# Print the mean absolute error
+print('Mean absolute error:', mae)
